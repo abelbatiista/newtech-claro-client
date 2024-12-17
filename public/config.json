@@ -1,0 +1,7 @@
+{
+  "service": {
+    "book": {
+      "baseUrl": "https://fakerestapi.azurewebsites.net"
+    }
+  }
+}

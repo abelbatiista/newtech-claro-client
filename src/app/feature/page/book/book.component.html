@@ -1,0 +1,146 @@
+@switch (action) {
+  @case (actionList) {
+    <div class="row m-1 p-1">
+      <div class="col-3">
+        <button (click)="changeAction(actionAdd);" type="button" class="btn btn-outline-primary">
+          New
+        </button>
+      </div>
+    </div>
+    <div class="row m-1 p-1">
+      @for (item of items; track item.id) {
+        <div class="col-12 col-md-3">
+          <div class="card border-dark mb-3" style="max-width: 18rem;">
+            <div class="card-header bg-transparent border-dark">
+              {{ item?.id }}
+            </div>
+            <div class="card-body text-dark">
+              <h5 class="card-title">
+                {{ item?.title }}
+              </h5>
+              <p class="card-text">
+                {{ item?.description }}
+              </p>
+              <p class="card-text">
+                {{ item?.pageCount }}
+              </p>
+            </div>
+            <div class="card-footer bg-transparent border-dark">
+              <p>
+                <button (click)="view(item);" type="button" class="btn btn-outline-success mx-1">
+                  <i class="fa-solid fa-expand"></i>
+                </button>
+                <button (click)="update(item);" type="button" class="btn btn-outline-warning mx-1">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button (click)="delete(item?.id!);" type="button" class="btn btn-outline-danger mx-1">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+  @case (actionAdd) {
+    <ng-container [ngTemplateOutlet]="containerForm"></ng-container>
+  }
+  @case (actionUpdate) {
+    <ng-container [ngTemplateOutlet]="containerForm"></ng-container>
+  }
+  @case (actionView) {
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col">
+        <div class="card text-bg-dark mb-3 w-100">
+          <div class="card-header">{{ item?.id ?? '' }}</div>
+          <div class="card-body">
+            <h4 class="card-title">{{ item?.title ?? '' }}</h4>
+            <h6 class="card-title">{{ item?.description ?? '' }}</h6>
+            <p class="card-text">
+              {{ item?.excerpt ?? '' }}
+            </p>
+            <p>
+              {{ item?.publishDate | date : 'longDate' }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-2"></div>
+    </div>
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-6">
+        <button (click)="cancel();" type="button" class="btn btn-outline-danger">
+          Cancelar
+        </button>
+      </div>
+      <div class="col-2"></div>
+    </div>
+  }
+  @default {
+
+  }
+}
+
+<ng-template #containerForm>
+  <form [formGroup]="form" (ngSubmit)="save();">
+    <div class="row w-100">
+      <div class="col-2"></div>
+      <div class="col-8">
+        <div class="row w-100">
+          <div class="col-3 py-1 my-1">
+            <div class="form-floating">
+              <input formControlName="title" type="text" class="form-control" id="floatingTitle" placeholder="Título">
+              <label for="floatingTitle">Título</label>
+            </div>
+          </div>
+          <div class="col-9 py-1 my-1">
+            <div class="form-floating">
+              <input formControlName="description" type="text" class="form-control" id="floatingDescription" placeholder="Descripción">
+              <label for="floatingDescription">Descripción</label>
+            </div>
+          </div>
+          <div class="col-12 py-1 my-1">
+            <div class="form-floating">
+              <textarea formControlName="excerpt" class="form-control" placeholder="Extracto del libro..." id="floatingExcerpt" style="height: 100px"></textarea>
+              <label for="floatingExcerpt">Extracto</label>
+            </div>
+          </div>
+          <div class="col-6 py-1 my-1">
+            <div class="form-floating">
+              <input formControlName="pageCount" type="number" class="form-control" id="floatingPageCount" placeholder="Páginas">
+              <label for="floatingPageCount">Páginas</label>
+            </div>
+          </div>
+          <div class="col-6 py-1 my-1">
+            <div class="form-floating">
+              <input formControlName="publishDate" type="text" class="form-control" id="floatingPublishDate" placeholder="Fecha (dd/MM/yyyy)">
+              <label for="floatingPublishDate">Fecha (dd/MM/yyyy)</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2"></div>
+          <div class="col-8">
+            <div class="row">
+              <div class="col-6">
+                <button (click)="cancel();" type="button" class="btn btn-outline-danger">
+                  Cancelar
+                </button>
+              </div>
+              <div class="col-6">
+                <button type="submit" class="btn btn-outline-primary">
+                  Guardar
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-2"></div>
+        </div>
+      </div>
+      <div class="col-2"></div>
+    </div>
+  </form>
+</ng-template>
